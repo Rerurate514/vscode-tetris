@@ -21,7 +21,7 @@
 				{
 					"type": "webview",
 					"id": "calicoColors.colorsView",
-					"name": "Calico Colors"
+					"name": "tetris"
 				}
 			]
 		},

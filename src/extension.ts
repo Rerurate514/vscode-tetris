@@ -89,33 +89,286 @@ class ColorsViewProvider implements vscode.WebviewViewProvider {
 			<html lang="en">
 			<head>
 				<meta charset="UTF-8">
-
-				<!--
-					Use a content security policy to only allow loading styles from our extension directory,
-					and only allow scripts that have a specific nonce.
-					(See the 'webview-sample' extension sample for img-src content security policy examples)
-				-->
 				<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource}; script-src 'nonce-${nonce}';">
-
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-				<link href="${styleResetUri}" rel="stylesheet">
-				<link href="${styleVSCodeUri}" rel="stylesheet">
 				<link href="${styleMainUri}" rel="stylesheet">
 
-				<title>Cat Colors</title>
+				<title>tetris</title>
 			</head>
 			<body>
-				<ul class="color-list">
-				</ul>
-
-				<button class="add-color-button">Add Color</button>
-
-				<script nonce="${nonce}" src="${scriptUri}"></script>
+				<div class="all-container">
+					<div class="field-container"> 
+						<div class="field">
+							<table class="field-table">
+								<tbody>
+									<tr class="field-horizontal-line">
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+									</tr>
+									<tr class="field-horizontal-line">
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+									</tr>
+									<tr class="field-horizontal-line">
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+									</tr>
+									<tr class="field-horizontal-line">
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+									</tr>
+									<tr class="field-horizontal-line">
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+									</tr>
+									<tr class="field-horizontal-line">
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+									</tr>
+									<tr class="field-horizontal-line">
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+									</tr>
+									<tr class="field-horizontal-line">
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+									</tr>
+									<tr class="field-horizontal-line">
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+									</tr>
+									<tr class="field-horizontal-line">
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+									</tr>
+									<tr class="field-horizontal-line">
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+									</tr>
+									<tr class="field-horizontal-line">
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+									</tr>
+									<tr class="field-horizontal-line">
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+									</tr>
+									<tr class="field-horizontal-line">
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+									</tr>
+									<tr class="field-horizontal-line">
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+									</tr>
+									<tr class="field-horizontal-line">
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+									</tr>
+									<tr class="field-horizontal-line">
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+									</tr>
+									<tr class="field-horizontal-line">
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+									</tr>
+									<tr class="field-horizontal-line">
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+									</tr>
+									<tr class="field-horizontal-line">
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+										<td class="field-cell"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="button-group-container">
+						<div class="moving-button-group">
+							<button class="moving-button">←</button>
+							<button class="moving-button">→</button>
+						</div>
+						<div class="rotating-button-group">
+			
+						</div>
+					</div>
+				</div>
 			</body>
 			</html>`;
 	}
 }
+
+// <body>
+// 	<ul class="color-list">
+// 	</ul>
+
+// 	<button class="add-color-button">Add Color</button>
+
+// 	<script nonce="${nonce}" src="${scriptUri}"></script>
+// </body>
+
 
 function getNonce() {
 	let text = '';

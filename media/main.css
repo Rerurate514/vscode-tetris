@@ -1,40 +1,53 @@
-body {
-	background-color: transparent;
+body{
+	text-align: center;
 }
 
-.color-list {
-	list-style: none;
-	padding: 0;
+.margin-auto{
+	margin-left: auto;
+	margin-right: auto;
 }
 
-.color-entry {
+.all-container{
 	width: 100%;
+	height: 500px;
+}
+
+.field-container{
+	text-align: center;
+	width: 20%;
+	height: auto;
+
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.field{
+	text-align: center;
+}
+
+.field-table{
+	margin-left: auto;
+	margin-right: auto;
+
+	aspect-ratio: 10/20;
+}
+
+.field-cell{
+	width: 7px;
+
+	border: 1px solid white;
+}
+
+.button-group-container{
+	margin-top: 32px;
+}
+
+.moving-button-group{
 	display: flex;
-	margin-bottom: 0.4em;
-	border: 1px solid var(--vscode-input-border);
+	justify-content: space-around;
 }
 
-.color-preview {
-	width: 2em;
-	height: 2em;
-}
-
-.color-preview:hover {
-	outline: inset white;
-}
-
-.color-input {
-	display: block;
-	flex: 1;
-	width: 100%;
-	color: var(--vscode-input-foreground);
-	background-color: var(--vscode-input-background);
-	border: none;
-	padding: 0 0.6em;
-}
-
-.add-color-button {
-	display: block;
-	border: none;
-	margin: 0 auto;
+.moving-button{
+	width: 16%;
+	height: 3em;
 }
