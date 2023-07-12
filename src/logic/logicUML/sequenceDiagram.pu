@@ -1,0 +1,38 @@
+@startuml
+
+title gameStart funからgamefinish funまでのシーケンス
+
+participant gameStart #Red
+participant gameLoop
+participant main
+participant monoCreated
+participant monoFallOneSquare
+participant monoRotate
+participant isCollision
+participant isLineOver
+participant isLinePlaced
+participant gamefinish #Red
+
+gameStart -> gameLoop : スタートしたらgameLoop関数に行く
+
+group ループし続ける
+    gameLoop -> main : loopスタート
+
+    main -> monoCreated : monoをフィールドに投下
+    main -> monoFallOneSquare : monoを1マス下げる
+    main -> monoRotate : monoを回転させる
+
+    main -> isCollision : 接地判定
+    main -> isLineOver : ゲームオーバー判定
+    isLineOver -> gamefinish : ライン超えてるならfinish
+    main -> isLinePlaced : ライン揃ってるか判定
+
+    'ポーズ処理もあり、分岐が多いので
+    'シーケンス図より状態遷移図の方が良い
+
+    main -> gameLoop : もう一回ループ
+end
+
+gameLoop -> gamefinish : game
+
+@enduml
