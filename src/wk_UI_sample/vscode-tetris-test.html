@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        body{
+            text-align: center;
+        }
+
+        .margin-auto{
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .all-container{
+            width: 100%;
+            height: 500px;
+        }
+
+        .field-container{
+            text-align: center;
+            width: 100%;
+            height: auto;
+
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .field{
+            text-align: center;
+        }
+
+        .field-table{
+            margin-left: auto;
+            margin-right: auto;
+
+            aspect-ratio: 10/20;
+        }
+
+        .field-cell{
+            width: 1ch;
+            aspect-ratio: 1/1;
+
+            border: 1px solid black;
+        }
+
+        .button-group-container{
+            margin-top: 32px;
+        }
+
+        .moving-button-group{
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .moving-button{
+            width: 16%;
+            height: 3em;
+        }
+
+        button::-moz-focus-inner{
+            background-color: brown;
+        }
+    </style>
+    <div class="all-container">
+        <div class="field-container"> 
+            <div class="field">
+                <table class="field-table">
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="button-group-container">
+            <div class="moving-button-group">
+                <button class="moving-button">←</button>
+                <button class="moving-button">→</button>
+            </div>
+            <div class="rotating-button-group">
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

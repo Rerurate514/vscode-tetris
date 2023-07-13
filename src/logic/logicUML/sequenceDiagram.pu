@@ -5,12 +5,15 @@ title gameStart funからgamefinish funまでのシーケンス
 participant gameStart #Red
 participant gameLoop
 participant main
+participant mainAsync
 participant monoCreated
 participant monoFallOneSquare
+participant monoMoveHorizontal
 participant monoRotate
 participant isCollision
 participant isLineOver
 participant isLinePlaced
+participant gamePause
 participant gamefinish #Red
 
 gameStart -> gameLoop : スタートしたらgameLoop関数に行く
@@ -20,7 +23,13 @@ group ループし続ける
 
     main -> monoCreated : monoをフィールドに投下
     main -> monoFallOneSquare : monoを1マス下げる
-    main -> monoRotate : monoを回転させる
+
+    group 非同期処理
+        mainAsync -> monoMoveHorizontal : monoを横に移動させる
+        mainAsync -> monoRotate : monoを回転させる
+
+        mainAsync -> gamePause : ポーズ処理
+    end
 
     main -> isCollision : 接地判定
     main -> isLineOver : ゲームオーバー判定
