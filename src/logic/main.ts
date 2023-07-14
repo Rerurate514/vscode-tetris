@@ -10,6 +10,8 @@ export class GameExecute{
     private placedMonoField : Field = new Array(20);
     private isMonoFalling : boolean = false;
 
+    public getMovingMonoField() : Field { return this.movingMonoField; }
+    public getPlacedMonoField() : Field { return this.placedMonoField; }
     
     /**
      * ## このメソッドはゲーム開始からGameCoodinate.interval[ms]ごとに呼び出されます。
@@ -26,6 +28,8 @@ export class GameExecute{
                 this.movingMonoField
             );
         }
+
+        //todo isCollision
         
         let fieldHtml : string = this.drawfield();
         return fieldHtml;
@@ -44,7 +48,7 @@ export class GameExecute{
      */
     private decideMono() : Field{
         let monoData = new MonoData;
-        let ramdomNum : number = Math.floor(Math.random() * Number(monoData.getMonoDataSize)) + 1;
+        let ramdomNum : number = Math.floor(Math.random() * monoData.getMonoDataSize()) + 1;
         let monoMap = monoData.createMonoDataHashMap();
         let monoDecide = monoMap.get(ramdomNum);
         return monoDecide!!;
@@ -83,9 +87,28 @@ export class GameExecute{
         movingMonoField[3][6] = _mono[3][3];
 
         return movingMonoField;
-    }
+    }    
+}
 
-    private sendFieldArray(): Field{
-        
+export class GameDataFetch{
+    private gameExecute = new GameExecute;
+
+    public fetchFieldArray(): Field{
+        let movingMonoField = structuredClone(this.gameExecute.getMovingMonoField());
+        let placedMonoField = structuredClone(this.gameExecute.getPlacedMonoField());
+        let result : Field = new Array(24);
+
+        for(let vertical = 0; vertical > result.length; vertical++){
+            for(let horizontal = 0; horizontal > result[vertical].length; horizontal++){
+                if(placedMonoField[vertical][horizontal] !== 0) { 
+                    result[vertical][horizontal] = placedMonoField[vertical][horizontal]; 
+                    continue;
+                }
+
+                result[vertical][horizontal] = movingMonoField[vertical][horizontal];
+            }
+        }
+
+        return result;
     }
 }
