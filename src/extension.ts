@@ -1,30 +1,61 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import { GameCoodinator } from './logic/GameCoodinator';
 
 export function activate(context: vscode.ExtensionContext) {
 
-	const provider = new ColorsViewProvider(context.extensionUri);
+	const provider = new FieldViewProvider(context.extensionUri);
 
 	context.subscriptions.push(
-		vscode.window.registerWebviewViewProvider(ColorsViewProvider.viewType, provider));
+		vscode.window.registerWebviewViewProvider(FiledViewProvider.viewType, provider)
+	);
 
 	context.subscriptions.push(
 		vscode.commands.registerCommand('calicoColors.addColor', () => {
 			provider.addColor();
-		}));
+		})
+	);n
 
 	context.subscriptions.push(
 		vscode.commands.registerCommand('calicoColors.clearColors', () => {
 			provider.clearColors();
-		}));
+		})
+	);
+
+	context.subscriptions.push(
+		vscode.commands.registerCommand('vscode-tetris.startGame', () => {
+			provider.startGame();
+		})
+	);
+
+	context.subscriptions.push(
+		vscode.commands.registerCommand('vscode-tetris.finishGame', () => {
+			provider.finishGame();
+		})
+	);
+
+	context.subscriptions.push(
+		vscode.commands.registerCommand('vscode-tetris.pauseGame', () => {
+			provider.pauseGame();
+		})
+	);
+
+	context.subscriptions.push(
+		vscode.commands.registerCommand('vscode-tetris.resetGame', () => {
+			provider.resetGame();
+		})
+	);
 }
 
-class ColorsViewProvider implements vscode.WebviewViewProvider {
+class FieldViewProvider implements vscode.WebviewViewProvider {
 
-	public static readonly viewType = 'calicoColors.colorsView';
+	//public static readonly viewType = 'calicoColors.colorsView';
+	public static readonly viewType = 'vscode-tetris.fieldView';
 
 	private _view?: vscode.WebviewView;
+
+	private gameCoodnator = new GameCoodinator;
 
 	constructor(
 		private readonly _extensionUri: vscode.Uri,
@@ -72,6 +103,22 @@ class ColorsViewProvider implements vscode.WebviewViewProvider {
 		}
 	}
 
+	public startGame(){
+		this.gameCoodnator.startGame();
+	}
+
+	public finishGame(){
+		this.gameCoodnator.finishGame();
+	}
+
+	public pauseGame(){
+		this.gameCoodnator.pauseGame();
+	}
+
+	public resetGame(){
+		this.gameCoodnator.resetGame();
+	}
+
 	private _getHtmlForWebview(webview: vscode.Webview) {
 		const scriptUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'main.js'));
 
@@ -95,7 +142,7 @@ class ColorsViewProvider implements vscode.WebviewViewProvider {
 					<div class="field-container"> 
 						<div class="field">
 							<table class="field-table">
-								<tbody>
+								<tbody class="field">
 									
 								</tbody>
 							</table>

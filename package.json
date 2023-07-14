@@ -20,8 +20,8 @@
 			"explorer": [
 				{
 					"type": "webview",
-					"id": "calicoColors.colorsView",
-					"name": "tetris"
+					"id": "vscode-tetris.fieldView",
+					"name": "vscode-tetris"
 				}
 			]
 		},
@@ -36,6 +36,26 @@
 				"category": "Calico Colors",
 				"title": "Clear Colors",
 				"icon": "$(clear-all)"
+			},
+			{
+				"command": "vscode-tetris.startGame",
+				"category": "vscode-tetris",
+				"title": "Game Start"
+			},
+			{
+				"command": "vscode-tetris.finishGame",
+				"category": "vscode-tetris",
+				"title": "Game Finish"
+			},
+			{
+				"command": "vscode-tetris.pauseGame",
+				"category": "vscode-tetris",
+				"title": "Game Pause"
+			},
+			{
+				"command": "vscode-tetris.resetGame",
+				"category": "vscode-tetris",
+				"title": "Game Reset"
 			}
 		],
 		"menus": {
@@ -44,6 +64,11 @@
 					"command": "calicoColors.clearColors",
 					"group": "navigation",
 					"when": "view == calicoColors.colorsView"
+				},
+				{
+					"command": "vscode-tetris.resetGame",
+					"group": "navigation",
+					"when": "view == vscode-tetris.resetGame"
 				}
 			]
 		}
