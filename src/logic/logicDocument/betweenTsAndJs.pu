@@ -1,0 +1,28 @@
+@startuml dependencies
+    title JSとTS間の依存関係
+
+    participant TS_extension #Aquamarine
+    participant TS_GameCoodinator #Aquamarine
+    participant TS_main #Aquamarine
+    participant JS_drawField #LightYellow
+
+    note over TS_extension, TS_extension : エントリポイント
+
+    autonumber
+
+    TS_extension -> TS_GameCoodinator : メソッド呼び出し
+    TS_GameCoodinator -> TS_main : メソッド呼び出し
+
+    group Loop
+        TS_main -> TS_main : フィールドデータ計算
+
+        TS_main -> JS_drawField ++ : viewへのレンダリング委譲
+
+        JS_drawField -> TS_main : field配列の取得関数呼び出し
+        TS_main -> JS_drawField : field配列を送る
+        note left : moving + placed array \n 結合した状態の配列
+
+        JS_drawField -> JS_drawField : viewへのレンダリング
+    end
+    
+@enduml
