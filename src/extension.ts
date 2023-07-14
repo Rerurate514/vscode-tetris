@@ -8,14 +8,14 @@ export function activate(context: vscode.ExtensionContext) {
 	const provider = new FieldViewProvider(context.extensionUri);
 
 	context.subscriptions.push(
-		vscode.window.registerWebviewViewProvider(FiledViewProvider.viewType, provider)
+		vscode.window.registerWebviewViewProvider(FieldViewProvider.viewType, provider)
 	);
 
 	context.subscriptions.push(
 		vscode.commands.registerCommand('calicoColors.addColor', () => {
 			provider.addColor();
 		})
-	);n
+	);
 
 	context.subscriptions.push(
 		vscode.commands.registerCommand('calicoColors.clearColors', () => {
@@ -124,6 +124,7 @@ class FieldViewProvider implements vscode.WebviewViewProvider {
 
 		const styleMainUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'main.css'));
 
+		let fieldHtml : string = "";
 		// Use a nonce to only allow a specific script to be run.
 		const nonce = getNonce();
 
@@ -143,7 +144,7 @@ class FieldViewProvider implements vscode.WebviewViewProvider {
 						<div class="field">
 							<table class="field-table">
 								<tbody class="field">
-									
+									${fieldHtml}
 								</tbody>
 							</table>
 						</div>

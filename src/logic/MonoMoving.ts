@@ -1,7 +1,8 @@
 type Field = number[][];
 export class MonoMovingByAuto{
     /**
-     * This function falls the mono on the field by one square.
+     * ## この関数はフィールド上にあるmonoを１マス下げる関数です。
+     * > recommend - var movingField
      * @date 2023/7/12 - 23:38:22
      *
      * @public
