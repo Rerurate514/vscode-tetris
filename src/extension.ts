@@ -46,6 +46,12 @@ export function activate(context: vscode.ExtensionContext) {
 			provider.resetGame();
 		})
 	);
+
+	context.subscriptions.push(
+		vscode.commands.registerCommand('a', () => {
+			vscode.window.showInformationMessage("aaa");
+		})
+	);
 }
 
 class FieldViewProvider implements vscode.WebviewViewProvider {
@@ -143,7 +149,7 @@ class FieldViewProvider implements vscode.WebviewViewProvider {
 					<div class="field-container"> 
 						<div class="field">
 							<table class="field-table">
-								<tbody class="field">
+								<tbody class="field-tbody">
 									${fieldHtml}
 								</tbody>
 							</table>

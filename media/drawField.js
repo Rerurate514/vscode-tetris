@@ -3,13 +3,10 @@
 // This script will be run within the webview itself
 // It cannot access the main VS Code APIs directly.
 (function () {
-    const vscode = acquireVsCodeApi();
+    //const vscode = acquireVsCodeApi();
 
-    const GameExecute = require("../src/logic/main");
-
-    document.querySelector('.add-color-button').addEventListener('click', () => {
-        addColor();
-    });
+    const gameExecute = require("../src/logic/main.js");
+    const gameDataFetch = new gameExecute.GameDataFetch;
 
     // Handle messages sent from the extension to the webview
     window.addEventListener('message', event => {
@@ -25,11 +22,16 @@
     });
 
     async function drawField(){
+        let field = fetchFieldDataFromMainTs();
+        let table = document.querySelector('.field-tbody');
 
+        
     }
 
     function fetchFieldDataFromMainTs(){
-        let 
+        let field = gameDataFetch.fetchFieldArray();
+
+        return field;
     }
     
 }());

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GameExecute = void 0;
+exports.GameDataFetch = exports.GameExecute = void 0;
 const MonoData_1 = require("./MonoData");
 const MonoMoving_1 = require("./MonoMoving");
 class GameExecute {
@@ -10,6 +10,8 @@ class GameExecute {
         this.placedMonoField = new Array(20);
         this.isMonoFalling = false;
     }
+    getMovingMonoField() { return this.movingMonoField; }
+    getPlacedMonoField() { return this.placedMonoField; }
     /**
      * ## このメソッドはゲーム開始からGameCoodinate.interval[ms]ごとに呼び出されます。
      * @date 2023/7/13 - 16:34:22
@@ -23,6 +25,7 @@ class GameExecute {
         else {
             this.monoMovingByAuto.monoFallOneSquare(this.movingMonoField);
         }
+        //todo isCollision
         let fieldHtml = this.drawfield();
         return fieldHtml;
     }
@@ -38,7 +41,7 @@ class GameExecute {
      */
     decideMono() {
         let monoData = new MonoData_1.MonoData;
-        let ramdomNum = Math.floor(Math.random() * Number(monoData.getMonoDataSize)) + 1;
+        let ramdomNum = Math.floor(Math.random() * monoData.getMonoDataSize()) + 1;
         let monoMap = monoData.createMonoDataHashMap();
         let monoDecide = monoMap.get(ramdomNum);
         return monoDecide;
@@ -73,4 +76,25 @@ class GameExecute {
     }
 }
 exports.GameExecute = GameExecute;
+class GameDataFetch {
+    constructor() {
+        this.gameExecute = new GameExecute;
+    }
+    fetchFieldArray() {
+        let movingMonoField = structuredClone(this.gameExecute.getMovingMonoField());
+        let placedMonoField = structuredClone(this.gameExecute.getPlacedMonoField());
+        let result = new Array(24);
+        for (let vertical = 0; vertical > result.length; vertical++) {
+            for (let horizontal = 0; horizontal > result[vertical].length; horizontal++) {
+                if (placedMonoField[vertical][horizontal] !== 0) {
+                    result[vertical][horizontal] = placedMonoField[vertical][horizontal];
+                    continue;
+                }
+                result[vertical][horizontal] = movingMonoField[vertical][horizontal];
+            }
+        }
+        return result;
+    }
+}
+exports.GameDataFetch = GameDataFetch;
 //# sourceMappingURL=main.js.map

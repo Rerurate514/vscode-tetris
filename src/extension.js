@@ -9,9 +9,11 @@ function activate(context) {
     const provider = new FieldViewProvider(context.extensionUri);
     context.subscriptions.push(vscode.window.registerWebviewViewProvider(FieldViewProvider.viewType, provider));
     context.subscriptions.push(vscode.commands.registerCommand('calicoColors.addColor', () => {
+        vscode.window.showInformationMessage("invoked afddd color a");
         provider.addColor();
     }));
     context.subscriptions.push(vscode.commands.registerCommand('calicoColors.clearColors', () => {
+        vscode.window.showInformationMessage("invoked clear color fn");
         provider.clearColors();
     }));
     context.subscriptions.push(vscode.commands.registerCommand('vscode-tetris.startGame', () => {
@@ -25,6 +27,9 @@ function activate(context) {
     }));
     context.subscriptions.push(vscode.commands.registerCommand('vscode-tetris.resetGame', () => {
         provider.resetGame();
+    }));
+    context.subscriptions.push(vscode.commands.registerCommand('a', () => {
+        vscode.window.showInformationMessage("aaa");
     }));
 }
 exports.activate = activate;
@@ -97,7 +102,7 @@ class FieldViewProvider {
 					<div class="field-container"> 
 						<div class="field">
 							<table class="field-table">
-								<tbody class="field">
+								<tbody class="field-tbody">
 									${fieldHtml}
 								</tbody>
 							</table>
