@@ -46,12 +46,6 @@ export function activate(context: vscode.ExtensionContext) {
 			provider.resetGame();
 		})
 	);
-
-	context.subscriptions.push(
-		vscode.commands.registerCommand('a', () => {
-			vscode.window.showInformationMessage("aaa");
-		})
-	);
 }
 
 class FieldViewProvider implements vscode.WebviewViewProvider {
@@ -96,6 +90,13 @@ class FieldViewProvider implements vscode.WebviewViewProvider {
 		});
 	}
 
+	public getViewUri(): vscode.WebviewView | undefined{
+		if(this._view){
+			return this._view;
+		}
+		return undefined;
+	}
+
 	public addColor() {
 		if (this._view) {
 			this._view.show?.(true); // `show` is not implemented in 1.49 but is for 1.50 insiders
@@ -110,7 +111,7 @@ class FieldViewProvider implements vscode.WebviewViewProvider {
 	}
 
 	public startGame(){
-		this.gameCoodnator.startGame();
+		this.gameCoodnator.startGame(this._view!!);
 	}
 
 	public finishGame(){

@@ -2,6 +2,10 @@ import { MonoData } from './MonoData';
 import { MonoMovingByAuto } from './MonoMoving';
 import { MonoMovingByPlayer } from './MonoMoving';
 
+//import { drawField } from './drawField.js';
+
+import * as vscode from 'vscode';
+
 type Field = number[][];
 export class GameExecute{
     private monoMovingByAuto = new MonoMovingByAuto;
@@ -12,6 +16,8 @@ export class GameExecute{
 
     public getMovingMonoField() : Field { return this.movingMonoField; }
     public getPlacedMonoField() : Field { return this.placedMonoField; }
+
+    private view : vscode.WebviewView | undefined;
     
     /**
      * ## このメソッドはゲーム開始からGameCoodinate.interval[ms]ごとに呼び出されます。
@@ -19,7 +25,8 @@ export class GameExecute{
      *
      * @public
      */
-    public main() : string{
+    public main(){
+        vscode.window.showInformationMessage("invoked : main func");
         if(!this.isMonoFalling){
             this.decideMono();
         }
@@ -31,12 +38,13 @@ export class GameExecute{
 
         //todo isCollision
         
-        let fieldHtml : string = this.drawfield();
-        return fieldHtml;
+        this.invokeDrawField();
     }
 
-    private drawfield() : string{
-        return "";
+    private invokeDrawField(){
+        if(this.view){
+            this.view.webview.postMessage({ type: 'drawField' });
+        }
     } 
     
     /**
@@ -88,6 +96,10 @@ export class GameExecute{
 
         return movingMonoField;
     }    
+
+    public setWebViewUri(_view: vscode.WebviewView){
+        this.view = _view;
+    }
 }
 
 export class GameDataFetch{

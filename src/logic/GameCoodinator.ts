@@ -1,5 +1,7 @@
 import { GameExecute } from './main';
 
+import * as vscode from 'vscode';
+
 export class GameCoodinator{
     private timerId : NodeJS.Timer | undefined = undefined;
     private interval : number = 1000;
@@ -8,10 +10,12 @@ export class GameCoodinator{
      * ## このメソッドはゲームをスタートするメソッドです。
      * @date 2023/7/13 - 15:55:51
      *
+     * @param {vscode.WebviewView} _view **描画するwebViewのUriを引数とします。**
      * @public
      */
-    public startGame() {
+    public startGame(_view: vscode.WebviewView) {
         let mainFunc = new GameExecute;
+        mainFunc.setWebViewUri(_view);
         this.timerId = setInterval(mainFunc.main, this.interval);
     }
     
