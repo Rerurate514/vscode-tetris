@@ -30,12 +30,13 @@
     
         table?.appendChild(tbody);
 
-        console.log(tbody);
+        console.log(field);
 
         for(let v = 0; v < field.length; v++){
             const tr = document.createElement("tr");
             tr.className= `row-num-${v}`;
             tbody.appendChild(tr);
+            console.log(`len[${v}] = ` + field[v]);
             for(let h = 0; h < field[v].length; h++){
                 const td = document.createElement("td");
                 td.className = `${v}-${h}`;

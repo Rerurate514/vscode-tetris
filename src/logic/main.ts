@@ -8,13 +8,37 @@ type Field = number[][];
 export class GameExecute{
     private monoMovingByAuto = new MonoMovingByAuto;
 
-    private movingMonoField : Field = new Array(24);
-    private placedMonoField : Field = new Array(20);
+    private movingMonoField : Field = new Array(24).fill([]);
+    private placedMonoField : Field = new Array(20).fill([]);
     private isMonoFalling : boolean = false;
 
     private view : vscode.WebviewView | undefined;
     constructor(_view? : vscode.WebviewView){
         this.view = _view;
+
+        this.movingMonoField = this.fillFieldArrayOfArray(this.movingMonoField);
+        this.placedMonoField = this.fillFieldArrayOfArray(this.placedMonoField);
+    }
+
+    
+    /**
+     * ## この関数は2次元配列を作成して返す関数です。
+     * @date 2023/7/18 - 1:35:56
+     *
+     * @private
+     * @param {Field} _arr
+     * @returns {Field}
+     */
+    private fillFieldArrayOfArray(_arr: Field): Field{
+        let result : Field = new Array(_arr.length).fill([]);
+        for(let v = 0; v < _arr.length; v++){
+            result[v] = new Array(10).fill(0);
+        }
+
+        result = JSON.parse(JSON.stringify(result));
+
+        console.log("fill:", result);
+        return result;
     }
 
     /**
@@ -24,14 +48,16 @@ export class GameExecute{
      * @public
      */
     public main(){
-        /*if(!this.isMonoFalling){
-            let mono = this.decideMono;
+        if(!this.isMonoFalling){
+            let mono = this.decideMono();
+            this.placeMovingMonoField(mono);
+            this.isMonoFalling = true;
         }
         else{
             this.monoMovingByAuto.monoFallOneSquare(
                 this.movingMonoField
             );
-        }*/
+        }
     
         this.invokeDrawField();
     }
@@ -43,7 +69,7 @@ export class GameExecute{
         };
 
         if(this.view){
-            this.view.webview.postMessage({ type: 'drawField' , });
+            this.view.webview.postMessage(message);
         }
     }
     
@@ -73,7 +99,8 @@ export class GameExecute{
      * @returns {Field}
      */
     private placeMovingMonoField(_mono: Field) : Field{
-        let movingMonoField : Field = new Array(24);
+        let movingMonoField : Field = new Array(24).fill([]);
+        movingMonoField = this.fillFieldArrayOfArray(movingMonoField);
 
         movingMonoField[0][3] = _mono[0][0];
         movingMonoField[0][4] = _mono[0][1];
@@ -98,22 +125,26 @@ export class GameExecute{
         return movingMonoField;
     }    
 
-    private fetchFieldArray(): Field{
-        let movingMonoField = JSON.parse(JSON.stringify(this.movingMonoField));
-        let placedMonoField = JSON.parse(JSON.stringify(this.placedMonoField));
-
-        let result : Field = new Array(24);
-
-        for(let vertical = 0; vertical > result.length; vertical++){
-            for(let horizontal = 0; horizontal > result[vertical].length; horizontal++){
-                if(placedMonoField[vertical][horizontal] !== 0) { 
-                    result[vertical][horizontal] = placedMonoField[vertical][horizontal]; 
-                    continue;
+    private fetchFieldArray(): Field {
+        const movingMonoField : Field = JSON.parse(JSON.stringify(this.movingMonoField));
+        const placedMonoField : Field = JSON.parse(JSON.stringify(this.placedMonoField));
+      
+        console.log("moving:", movingMonoField);
+        console.log("placed:", placedMonoField);
+      
+        const result: Field = this.fillFieldArrayOfArray(new Array(24));
+      
+        for (let vertical = 0; vertical < result.length - 4; vertical++) {
+            for (let horizontal = 0; horizontal < result[vertical].length; horizontal++) {
+                if (placedMonoField[vertical][horizontal] !== 0) {
+                    result[vertical][horizontal] = placedMonoField[vertical][horizontal];
+                } else {
+                    result[vertical][horizontal] = movingMonoField[vertical][horizontal];
                 }
-                result[vertical][horizontal] = movingMonoField[vertical][horizontal];
             }
         }
-
+      
         return result;
     }
+      
 }
