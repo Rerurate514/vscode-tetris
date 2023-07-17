@@ -36,8 +36,6 @@ export class GameExecute{
         }
 
         result = JSON.parse(JSON.stringify(result));
-
-        console.log("fill:", result);
         return result;
     }
 
@@ -54,7 +52,11 @@ export class GameExecute{
             this.isMonoFalling = true;
         }
         else{
-            this.monoMovingByAuto.monoFallOneSquare(
+            console.log("mono",this.movingMonoField[0]);
+            console.log("mono",this.movingMonoField[1]);
+            console.log("mono",this.movingMonoField[2]);
+            console.log("mono",this.movingMonoField[3]);
+            this.movingMonoField = this.monoMovingByAuto.monoFallOneSquare(
                 this.movingMonoField
             );
         }
@@ -98,39 +100,32 @@ export class GameExecute{
      * @param {Field} _mono
      * @returns {Field}
      */
-    private placeMovingMonoField(_mono: Field) : Field{
-        let movingMonoField : Field = new Array(24).fill([]);
-        movingMonoField = this.fillFieldArrayOfArray(movingMonoField);
+    private placeMovingMonoField(_mono: Field){
+        this.movingMonoField[0][3] = _mono[0][0];
+        this.movingMonoField[0][4] = _mono[0][1];
+        this.movingMonoField[0][5] = _mono[0][2];
+        this.movingMonoField[0][6] = _mono[0][3];
 
-        movingMonoField[0][3] = _mono[0][0];
-        movingMonoField[0][4] = _mono[0][1];
-        movingMonoField[0][5] = _mono[0][2];
-        movingMonoField[0][6] = _mono[0][3];
+        this.movingMonoField[1][3] = _mono[1][0];
+        this.movingMonoField[1][4] = _mono[1][1];
+        this.movingMonoField[1][5] = _mono[1][2];
+        this.movingMonoField[1][6] = _mono[1][3];
 
-        movingMonoField[1][3] = _mono[1][0];
-        movingMonoField[1][4] = _mono[1][1];
-        movingMonoField[1][5] = _mono[1][2];
-        movingMonoField[1][6] = _mono[1][3];
+        this.movingMonoField[2][3] = _mono[2][0];
+        this.movingMonoField[2][4] = _mono[2][1];
+        this.movingMonoField[2][5] = _mono[2][2];
+        this.movingMonoField[2][6] = _mono[2][3];
 
-        movingMonoField[2][3] = _mono[2][0];
-        movingMonoField[2][4] = _mono[2][1];
-        movingMonoField[2][5] = _mono[2][2];
-        movingMonoField[2][6] = _mono[2][3];
-
-        movingMonoField[3][3] = _mono[3][0];
-        movingMonoField[3][4] = _mono[3][1];
-        movingMonoField[3][5] = _mono[3][2];
-        movingMonoField[3][6] = _mono[3][3];
-
-        return movingMonoField;
+        this.movingMonoField[3][3] = _mono[3][0];
+        this.movingMonoField[3][4] = _mono[3][1];
+        this.movingMonoField[3][5] = _mono[3][2];
+        this.movingMonoField[3][6] = _mono[3][3];
     }    
 
     private fetchFieldArray(): Field {
         const movingMonoField : Field = JSON.parse(JSON.stringify(this.movingMonoField));
         const placedMonoField : Field = JSON.parse(JSON.stringify(this.placedMonoField));
-      
-        console.log("moving:", movingMonoField);
-        console.log("placed:", placedMonoField);
+    
       
         const result: Field = this.fillFieldArrayOfArray(new Array(24));
       

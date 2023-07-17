@@ -38,6 +38,31 @@ td{
 	border: 1px solid white;
 }
 
+.num-0-mono{
+	background-color: whitesmoke;
+}
+.num-2-mono{
+	background-color: yellow;
+}
+.num-3-mono{
+	background-color: purple;
+}
+.num-4-mono{
+	background-color: green;
+}
+.num-5-mono{
+	background-color: red;
+}
+.num-6-mono{
+	background-color: blue;
+}
+.num-7-mono{
+	background-color: orange;
+}
+.num-8-mono{
+	background-color: aqua;
+}
+
 .button-group-container{
 	margin-top: 32px;
 }
