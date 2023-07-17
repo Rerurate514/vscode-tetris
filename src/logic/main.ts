@@ -52,10 +52,6 @@ export class GameExecute{
             this.isMonoFalling = true;
         }
         else{
-            console.log("mono",this.movingMonoField[0]);
-            console.log("mono",this.movingMonoField[1]);
-            console.log("mono",this.movingMonoField[2]);
-            console.log("mono",this.movingMonoField[3]);
             this.movingMonoField = this.monoMovingByAuto.monoFallOneSquare(
                 this.movingMonoField
             );
@@ -125,16 +121,16 @@ export class GameExecute{
     private fetchFieldArray(): Field {
         const movingMonoField : Field = JSON.parse(JSON.stringify(this.movingMonoField));
         const placedMonoField : Field = JSON.parse(JSON.stringify(this.placedMonoField));
-    
       
-        const result: Field = this.fillFieldArrayOfArray(new Array(24));
+        const result: Field = this.fillFieldArrayOfArray(new Array(20));
       
-        for (let vertical = 0; vertical < result.length - 4; vertical++) {
-            for (let horizontal = 0; horizontal < result[vertical].length; horizontal++) {
-                if (placedMonoField[vertical][horizontal] !== 0) {
-                    result[vertical][horizontal] = placedMonoField[vertical][horizontal];
-                } else {
-                    result[vertical][horizontal] = movingMonoField[vertical][horizontal];
+        for (let v = 0; v < result.length; v++) {
+            for (let h = 0; h < result[v].length; h++) {
+                if(placedMonoField[v][h] !== 0){
+                    result[v][h] = placedMonoField[v][h];
+                }
+                else{
+                    result[v][h] = movingMonoField[v + 4][h];
                 }
             }
         }

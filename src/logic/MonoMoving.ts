@@ -12,10 +12,12 @@ export class MonoMovingByAuto{
      */
     public monoFallOneSquare(_movingMonoField : Field) : Field {
         vscode.window.showInformationMessage("invoked : monoFallOneSquare");
-        let result : Field = [..._movingMonoField];
+        let result : Field = JSON.parse(JSON.stringify(_movingMonoField));
 
-        for(let vertical = 0; result.length - 1 < vertical; vertical++){
-            result[vertical + 1] = result[vertical];
+        for(let v = result.length - 1; v >= 1; v--){
+            console.log("monoFallin",result);
+            result[v] = result[v - 1];
+            result[v - 1] = new Array(10).fill(0);
         }
 
         return result;

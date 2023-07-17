@@ -37,7 +37,6 @@
             for(let h = 0; h < field[v].length; h++){
                 const td = document.createElement("td");
                 td.className = `num-${field[v][h]}-mono`;
-                // td.textContent = `${field[v][h]}`;
                 tr.appendChild(td);
             }
         }
