@@ -1,6 +1,7 @@
 {
   "name": "vscode-tetris",
   "displayName": "vscode-tetris",
+  "publisher": "Rerurate_514",
   "description": "",
   "version": "0.0.1",
   "engines": {
@@ -21,7 +22,7 @@
 				{
 					"type": "webview",
 					"id": "vscode-tetris.fieldView",
-					"name": "vscode-tetris"
+					"name": "vscode tetris"
 				}
 			]
 		},

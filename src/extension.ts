@@ -52,10 +52,10 @@ class FieldViewProvider implements vscode.WebviewViewProvider {
 
 	//public static readonly viewType = 'calicoColors.colorsView';
 	public static readonly viewType = 'vscode-tetris.fieldView';
+	
+	private gameCoodnator : GameCoodinator | undefined;
 
 	private _view?: vscode.WebviewView;
-
-	private gameCoodnator = new GameCoodinator;
 
 	constructor(
 		private readonly _extensionUri: vscode.Uri,
@@ -74,8 +74,10 @@ class FieldViewProvider implements vscode.WebviewViewProvider {
 
 			localResourceRoots: [
 				this._extensionUri
-			]
+			],
 		};
+
+		
 
 		webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
 
@@ -88,13 +90,8 @@ class FieldViewProvider implements vscode.WebviewViewProvider {
 					}
 			}
 		});
-	}
 
-	public getViewUri(): vscode.WebviewView | undefined{
-		if(this._view){
-			return this._view;
-		}
-		return undefined;
+		this.gameCoodnator = new GameCoodinator(this._view);
 	}
 
 	public addColor() {
@@ -111,27 +108,30 @@ class FieldViewProvider implements vscode.WebviewViewProvider {
 	}
 
 	public startGame(){
-		this.gameCoodnator.startGame(this._view!!);
+		if (this._view) {
+			this._view.show?.(true); // `show` is not implemented in 1.49 but is for 1.50 insiders
+			this._view.webview.postMessage({ type: 'drawField' });
+		}
+		this.gameCoodnator!!.startGame();
 	}
 
 	public finishGame(){
-		this.gameCoodnator.finishGame();
+		this.gameCoodnator!!.finishGame();
 	}
 
 	public pauseGame(){
-		this.gameCoodnator.pauseGame();
+		this.gameCoodnator!!.pauseGame();
 	}
 
 	public resetGame(){
-		this.gameCoodnator.resetGame();
+		this.gameCoodnator!!.resetGame();
 	}
 
 	private _getHtmlForWebview(webview: vscode.Webview) {
-		const scriptUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'main.js'));
+		const scriptUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'drawField.js'));
 
 		const styleMainUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'main.css'));
 
-		let fieldHtml : string = "";
 		// Use a nonce to only allow a specific script to be run.
 		const nonce = getNonce();
 
@@ -150,36 +150,31 @@ class FieldViewProvider implements vscode.WebviewViewProvider {
 					<div class="field-container"> 
 						<div class="field">
 							<table class="field-table">
-								<tbody class="field-tbody">
-									${fieldHtml}
+								<tbody id="field-tbody">
+
 								</tbody>
 							</table>
 						</div>
 					</div>
 					<div class="button-group-container">
 						<div class="moving-button-group">
-							<button class="moving-button">←</button>
-							<button class="moving-button">→</button>
+							<button class="moving-left-button">←</button>
+
+							<button class="moving-right-button">→</button>
 						</div>
 						<div class="rotating-button-group">
-			
+							<button class="rotating-left-button">L</button>
+
+							<button class="rotating-right-button">R</button>
 						</div>
 					</div>
 				</div>
+
+				<script nonce="${nonce}" src="${scriptUri}" type=module></script>
 			</body>
 			</html>`;
 	}
 }
-
-// <body>
-// 	<ul class="color-list">
-// 	</ul>
-
-// 	<button class="add-color-button">Add Color</button>
-
-// 	<script nonce="${nonce}" src="${scriptUri}"></script>
-// </body>
-
 
 function getNonce() {
 	let text = '';

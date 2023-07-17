@@ -2,8 +2,6 @@ import { MonoData } from './MonoData';
 import { MonoMovingByAuto } from './MonoMoving';
 import { MonoMovingByPlayer } from './MonoMoving';
 
-//import { drawField } from './drawField.js';
-
 import * as vscode from 'vscode';
 
 type Field = number[][];
@@ -14,11 +12,11 @@ export class GameExecute{
     private placedMonoField : Field = new Array(20);
     private isMonoFalling : boolean = false;
 
-    public getMovingMonoField() : Field { return this.movingMonoField; }
-    public getPlacedMonoField() : Field { return this.placedMonoField; }
-
     private view : vscode.WebviewView | undefined;
-    
+    constructor(_view? : vscode.WebviewView){
+        this.view = _view;
+    }
+
     /**
      * ## このメソッドはゲーム開始からGameCoodinate.interval[ms]ごとに呼び出されます。
      * @date 2023/7/13 - 16:34:22
@@ -26,26 +24,28 @@ export class GameExecute{
      * @public
      */
     public main(){
-        vscode.window.showInformationMessage("invoked : main func");
-        if(!this.isMonoFalling){
-            this.decideMono();
+        /*if(!this.isMonoFalling){
+            let mono = this.decideMono;
         }
         else{
             this.monoMovingByAuto.monoFallOneSquare(
                 this.movingMonoField
             );
-        }
-
-        //todo isCollision
-        
+        }*/
+    
         this.invokeDrawField();
     }
 
     private invokeDrawField(){
+        const message = {
+            type: 'drawField',
+            field: this.fetchFieldArray()
+        };
+
         if(this.view){
-            this.view.webview.postMessage({ type: 'drawField' });
+            this.view.webview.postMessage({ type: 'drawField' , });
         }
-    } 
+    }
     
     /**
      * この関数はmonoのmapからランダムにmonoを返す関数です。
@@ -55,6 +55,7 @@ export class GameExecute{
      * @returns {Field}
      */
     private decideMono() : Field{
+        vscode.window.showInformationMessage("invoked : decideMono");
         let monoData = new MonoData;
         let ramdomNum : number = Math.floor(Math.random() * monoData.getMonoDataSize()) + 1;
         let monoMap = monoData.createMonoDataHashMap();
@@ -97,17 +98,10 @@ export class GameExecute{
         return movingMonoField;
     }    
 
-    public setWebViewUri(_view: vscode.WebviewView){
-        this.view = _view;
-    }
-}
+    private fetchFieldArray(): Field{
+        let movingMonoField = JSON.parse(JSON.stringify(this.movingMonoField));
+        let placedMonoField = JSON.parse(JSON.stringify(this.placedMonoField));
 
-export class GameDataFetch{
-    private gameExecute = new GameExecute;
-
-    public fetchFieldArray(): Field{
-        let movingMonoField = structuredClone(this.gameExecute.getMovingMonoField());
-        let placedMonoField = structuredClone(this.gameExecute.getPlacedMonoField());
         let result : Field = new Array(24);
 
         for(let vertical = 0; vertical > result.length; vertical++){
@@ -116,7 +110,6 @@ export class GameDataFetch{
                     result[vertical][horizontal] = placedMonoField[vertical][horizontal]; 
                     continue;
                 }
-
                 result[vertical][horizontal] = movingMonoField[vertical][horizontal];
             }
         }

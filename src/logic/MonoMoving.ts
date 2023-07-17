@@ -1,3 +1,5 @@
+import * as vscode from 'vscode';
+
 type Field = number[][];
 export class MonoMovingByAuto{
     /**
@@ -9,6 +11,7 @@ export class MonoMovingByAuto{
      * @param {Field} _movingMonoField
      */
     public monoFallOneSquare(_movingMonoField : Field) : Field {
+        vscode.window.showInformationMessage("invoked : monoFallOneSquare");
         let result : Field = [..._movingMonoField];
 
         for(let vertical = 0; result.length - 1 < vertical; vertical++){

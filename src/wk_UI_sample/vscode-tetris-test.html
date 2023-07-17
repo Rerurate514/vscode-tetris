@@ -62,16 +62,17 @@
             height: 3em;
         }
 
-        button::-moz-focus-inner{
-            background-color: brown;
+        #dynamic{
+            width: 100%;
+            height: 5em;
         }
     </style>
     <div class="all-container">
         <div class="field-container"> 
             <div class="field">
                 <table class="field-table">
-                    <tbody>
-                        
+                    <tbody id="field-tbody">
+
                     </tbody>
                 </table>
             </div>
@@ -84,7 +85,9 @@
             <div class="rotating-button-group">
 
             </div>
+            <button id="dynamic"></button>
         </div>
     </div>
+    <script src="script.js"></script>
 </body>
 </html>

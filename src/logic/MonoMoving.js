@@ -1,7 +1,19 @@
 "use strict";
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MonoMovingByPlayer = exports.MonoMovingByAuto = void 0;
-class MonoMovingByAuto {
+var vscode = require("vscode");
+var MonoMovingByAuto = /** @class */ (function () {
+    function MonoMovingByAuto() {
+    }
     /**
      * ## この関数はフィールド上にあるmonoを１マス下げる関数です。
      * > recommend - var movingField
@@ -10,14 +22,16 @@ class MonoMovingByAuto {
      * @public
      * @param {Field} _movingMonoField
      */
-    monoFallOneSquare(_movingMonoField) {
-        let result = [..._movingMonoField];
-        for (let vertical = 0; result.length - 1 < vertical; vertical++) {
+    MonoMovingByAuto.prototype.monoFallOneSquare = function (_movingMonoField) {
+        vscode.window.showInformationMessage("invoked : monoFallOneSquare");
+        var result = __spreadArray([], _movingMonoField, true);
+        for (var vertical = 0; result.length - 1 < vertical; vertical++) {
             result[vertical + 1] = result[vertical];
         }
         return result;
-    }
-}
+    };
+    return MonoMovingByAuto;
+}());
 exports.MonoMovingByAuto = MonoMovingByAuto;
 /**
  * Description placeholder
@@ -27,7 +41,9 @@ exports.MonoMovingByAuto = MonoMovingByAuto;
  * @class MonoMovingByPlayer
  * @typedef {MonoMovingByPlayer}
  */
-class MonoMovingByPlayer {
-}
+var MonoMovingByPlayer = /** @class */ (function () {
+    function MonoMovingByPlayer() {
+    }
+    return MonoMovingByPlayer;
+}());
 exports.MonoMovingByPlayer = MonoMovingByPlayer;
-//# sourceMappingURL=MonoMoving.js.map

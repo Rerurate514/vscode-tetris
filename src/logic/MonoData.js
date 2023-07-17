@@ -11,8 +11,8 @@ exports.MonoData = void 0;
  * @class MonoData
  * @typedef {MonoData}
  */
-class MonoData {
-    constructor() {
+var MonoData = /** @class */ (function () {
+    function MonoData() {
         this.mono = {
             O_MONO: [
                 [0, 0, 0, 0],
@@ -65,9 +65,9 @@ class MonoData {
      * @public
      * @returns {number}
      */
-    getMonoDataSize() {
+    MonoData.prototype.getMonoDataSize = function () {
         return Object.keys(this.mono).length;
-    }
+    };
     /**
      * ## この関数はmonoをmapにして返す関数です。
      * > keyは1~からのnumber型です。
@@ -76,17 +76,18 @@ class MonoData {
      * @public
      * @returns {Map<number, Field>}
      */
-    createMonoDataHashMap() {
-        let result = new Map();
-        const keys = Object.keys(this.mono);
-        let cnt = 1;
-        for (const key of keys) {
-            let value = this.mono[key];
+    MonoData.prototype.createMonoDataHashMap = function () {
+        var result = new Map();
+        var keys = Object.keys(this.mono);
+        var cnt = 1;
+        for (var _i = 0, keys_1 = keys; _i < keys_1.length; _i++) {
+            var key = keys_1[_i];
+            var value = this.mono[key];
             result.set(cnt, value);
             cnt++;
         }
         return result;
-    }
-}
+    };
+    return MonoData;
+}());
 exports.MonoData = MonoData;
-//# sourceMappingURL=MonoData.js.map
