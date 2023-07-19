@@ -35,7 +35,15 @@
 ## 6. 開発見込み期間
 - 約1週間
 
-## ex 技術的仕様
+## ex. 技術的仕様
+### 
+
+### monoのisBottomCollisionにおける詳細仕様
+- monoごとにmonoの下限を動的に取得する。
+- 設定されたmonoの下限に、地面か他の積みあがっているmonoが来たらisBottomCollisionをtrueとする。
+- 遷移としてはisBottomCollisionがtrueになったならば次のmonoを降らす。
+
 ### monoのfieldArrayにおける数字の意味
-- 1 は動いているmono
+- 0 何もないことを表す
+- 1 欠番
 - 2 ~ 7 は各monoに対応している

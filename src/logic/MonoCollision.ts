@@ -29,19 +29,40 @@ export class MonoCollision{
         _collisionRef: CollisionRef
         ) : boolean{
 
-        let basis = {
-            x : _collisionRef.coodinate.monoBasis.x,
-            y : _collisionRef.coodinate.monoBasis.y,
-        };
+        let collissionCoodinate = [
+            this.sumWithCheckEmptyCollision(
+                _collisionRef.coodinate.monoBasis.y, _collisionRef.monoLowerCollision[0]
+                ),
+            this.sumWithCheckEmptyCollision(
+                _collisionRef.coodinate.monoBasis.y, _collisionRef.monoLowerCollision[1]
+            ),
+            this.sumWithCheckEmptyCollision(
+                _collisionRef.coodinate.monoBasis.y, _collisionRef.monoLowerCollision[2]
+            ),
+            this.sumWithCheckEmptyCollision(
+                _collisionRef.coodinate.monoBasis.y, _collisionRef.monoLowerCollision[3]
+            ),
+        ];
 
-        let limit = {
-            x : _collisionRef.coodinate.monoLimit.x,
-            y : _collisionRef.coodinate.monoLimit.y,
-        };
+        let xBasis = _collisionRef.coodinate.monoBasis.x;
+           
+        for(let h = 0; h <= 3; h++){
+            console.log(collissionCoodinate[h] + " ::: " + xBasis);
+            if(collissionCoodinate[h] === -1) { continue; }
+            console.log(_placedMonoField[collissionCoodinate[h]][xBasis + h]);
+            if(_placedMonoField[collissionCoodinate[h]][xBasis + h] !== undefined ||
+               _placedMonoField[collissionCoodinate[h]][xBasis + h] === 0 
+            ) { continue; }
             
-        
+            return true;
+        }
 
         return false;
+    }
+
+    private sumWithCheckEmptyCollision(_y : number, _lowerCollision : number) : number{
+        if(_lowerCollision === -1) { return -1; }
+        return _y + _lowerCollision;
     }
 
     public createMonoLowerCollision(_mono : Field): number[]{
