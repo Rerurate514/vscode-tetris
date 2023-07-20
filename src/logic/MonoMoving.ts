@@ -32,5 +32,11 @@ export class MonoMovingByAuto{
  * @typedef {MonoMovingByPlayer}
  */
 export class MonoMovingByPlayer{
+    public moveLeft(){
+        vscode.window.showInformationMessage("invoked : move Left");
+    }
 
+    public moveRight(){
+        vscode.window.showInformationMessage("invoked : move Right");
+    }
 }

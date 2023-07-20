@@ -35,16 +35,16 @@ body{
 td{
 	width: 7px;
 
-	/* border: 1px solid white; */
+	border: 1px solid white;
 }
 
 .num-0-mono{
-	background-color: whitesmoke;
+	background-color: black;
 	
 }
 
 .num-1-mono{
-	background-color: deeppink;
+	background-color: white;
 }
 
 .num-2-mono{

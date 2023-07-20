@@ -47,13 +47,8 @@ export class MonoCollision{
         let xBasis = _collisionRef.coodinate.monoBasis.x;
            
         for(let h = 0; h <= 3; h++){
-            console.log(collissionCoodinate[h] + " ::: " + xBasis);
             if(collissionCoodinate[h] === -1) { continue; }
-            console.log(_placedMonoField[collissionCoodinate[h]][xBasis + h]);
-            if(_placedMonoField[collissionCoodinate[h]][xBasis + h] !== undefined ||
-               _placedMonoField[collissionCoodinate[h]][xBasis + h] === 0 
-            ) { continue; }
-            
+            if(_placedMonoField[collissionCoodinate[h]][xBasis + h] === 0 ) { continue; }
             return true;
         }
 

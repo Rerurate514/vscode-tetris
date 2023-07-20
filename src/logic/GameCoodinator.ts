@@ -5,10 +5,12 @@ import * as vscode from 'vscode';
 export class GameCoodinator{
     private timerId : NodeJS.Timer | undefined = undefined;
     private interval : number = 1000;
+    private mainFunc : GameExecute | undefined = undefined;
 
     private view : vscode.WebviewView;
     constructor(_view : vscode.WebviewView){
         this.view = _view;
+        this.mainFunc = new GameExecute(this.view);
     }
 
     /**
@@ -18,8 +20,7 @@ export class GameCoodinator{
      * @public
      */
     public startGame() {
-        let mainFunc = new GameExecute(this.view);
-        this.timerId = setInterval(() => mainFunc.main(), this.interval);
+        this.timerId = setInterval(() => this.mainFunc!!.main(), this.interval);
     }
 
     /**
@@ -63,5 +64,20 @@ export class GameCoodinator{
      */
     public stopGame() {
         
+    }
+
+    public controlMovingByPlayer(_control: string){
+        switch(_control){
+            case 'moveLeft':
+            {
+                this.mainFunc!!.moveLeft();
+                break;
+            }
+            case 'moveRight':
+            {
+                this.mainFunc!!.moveRight();
+                break;
+            }
+        }
     }
 }

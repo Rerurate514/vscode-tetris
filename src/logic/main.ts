@@ -4,7 +4,6 @@ import { MonoMovingByPlayer } from './MonoMoving';
 import { MonoCollision } from './MonoCollision';
 
 import * as vscode from 'vscode';
-import { request } from 'http';
 
 type Field = number[][];
 type CollisionRef = {
@@ -23,6 +22,7 @@ type CollisionRef = {
 
 export class GameExecute{
     private monoMovingByAuto = new MonoMovingByAuto;
+    private monoMovingByPlayer = new MonoMovingByPlayer;
 
     private monoCollision = new MonoCollision;
 
@@ -78,10 +78,10 @@ export class GameExecute{
 
         for(let v = 0; v < _arr.length; v++){
             if(v === _arr.length - 1) {
-                result[v] = surface;
+                result[v] = JSON.parse(JSON.stringify(surface));
             }
             else{
-                result[v] = wall;
+                result[v] = JSON.parse(JSON.stringify(wall));
             }
 
         }
@@ -96,17 +96,11 @@ export class GameExecute{
      * @public
      */
     public main(){
-        if(!this.monoFallingFlag){
-            let mono = this.decideMono();
-            this.placeMovingMonoField(mono);
-            this.monoFallingFlag = true;
-            this.monoCollisionRef.monoLowerCollision = this.monoCollision.createMonoLowerCollision(mono);
+        if(this.monoFallingFlag){
+            this.executeMonoFalling();
         }
         else{
-            this.movingMonoField = this.monoMovingByAuto.monoFallOneSquare(
-                this.movingMonoField
-            );
-            this.moveCollisionRefY();
+            this.executeMonoPlacing();
         }
 
         /*ここでmonoMovingByPlayerによる操作*/
@@ -119,12 +113,28 @@ export class GameExecute{
         /*isCollision*/
         /*isLineOver*/
 
+
+        this.invokeDrawField();
+    }
+
+    private executeMonoPlacing(){
+        let mono = this.decideMono();
+        this.setRefDefault();
+        this.placeMovingMonoField(mono);
+        this.monoFallingFlag = true;
+        this.monoCollisionRef.monoLowerCollision = this.monoCollision.createMonoLowerCollision(mono);
+    }
+
+    private executeMonoFalling(){
+        this.movingMonoField = this.monoMovingByAuto.monoFallOneSquare(
+            this.movingMonoField
+        );
+        this.moveCollisionRefY();
+
         if(this.monoCollision.isBottomCollision(this.placedMonoField,this.monoCollisionRef)){
             this.insertPlacedFromMoving();
             this.monoFallingFlag = false;
         }
-    
-        this.invokeDrawField();
     }
 
     
@@ -175,8 +185,6 @@ export class GameExecute{
      * @returns {Field}
      */
     private placeMovingMonoField(_mono: Field){
-        this.setRefDefault();
-
         this.movingMonoField[0][5] = _mono[0][0];
         this.movingMonoField[0][6] = _mono[0][1];
         this.movingMonoField[0][7] = _mono[0][2];
@@ -220,22 +228,28 @@ export class GameExecute{
         const placedMonoField : Field = JSON.parse(JSON.stringify(this.placedMonoField));
       
         const result: Field = this.fillFieldArrayOfArray(new Array(21));
-      
-        for (let v = 0; v < result.length; v++) {
-            for (let h = 0; h < result[v].length; h++) {
+
+        for (let v = 4; v < placedMonoField.length; v++) {
+            for (let h = 0; h < placedMonoField[v].length; h++) {
                 if(placedMonoField[v][h] !== 0){
-                    result[v][h] = placedMonoField[v + 4][h];
+                    result[v - 4][h] = placedMonoField[v][h];
                 }
-                else if(placedMonoField[v + 4][h] === 1){
-                    result[v][h] = 1;
+                else if(placedMonoField[v][h] === 1){
+                    result[v - 4][h] = 1;
                 }
                 else{
-                    result[v][h] = movingMonoField[v + 4][h];
+                    result[v - 4][h] = movingMonoField[v][h];
                 }
             }
         }
-
         return result;
     }
       
+    public moveLeft(){
+        this.monoMovingByPlayer.moveLeft();
+    }
+
+    public moveRight(){
+        this.monoMovingByPlayer.moveRight();
+    }
 }

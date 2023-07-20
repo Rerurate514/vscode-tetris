@@ -2,6 +2,7 @@
 
 // This script will be run within the webview itself
 // It cannot access the main VS Code APIs directly.
+//const MonoMovingByPlayer = require('../src/logic/MonoMoving.js');
 (function () {
     //const vscode = acquireVsCodeApi();
 
@@ -17,6 +18,27 @@
 
         }
     });
+
+    // const rightBtn = document.getElementById('moving-right-button');
+    // const leftBtn = document.getElementById('moving-left-button');
+
+    // leftBtn?.addEventListener('click', () => {
+    //     moveLeft();
+    // });
+
+    // rightBtn?.addEventListener('click', () => {
+    //     moveRight();
+    // });
+
+    // async function moveLeft(){
+    //     console.log("move left");
+    //     //monoMovingByPlayer.moveLeft();
+    // }
+
+    // async function moveRight(){
+    //     console.log("move right");
+    //     //monoMovingByPlayer.moveRight();
+    // }
 
     async function drawField(_field){
         let field = _field;

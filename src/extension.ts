@@ -88,6 +88,19 @@ class FieldViewProvider implements vscode.WebviewViewProvider {
 						vscode.window.activeTextEditor?.insertSnippet(new vscode.SnippetString(`#${data.value}`));
 						break;
 					}
+				
+				case 'moveLeftByPlayer':
+					{
+						this.gameCoodnator?.controlMovingByPlayer('moveLeft');
+						break;
+					}
+				
+				case 'moveRightByPlayer':
+					{
+						this.gameCoodnator?.controlMovingByPlayer('moveRight');
+						break;
+					}
+				
 			}
 		});
 
@@ -128,7 +141,8 @@ class FieldViewProvider implements vscode.WebviewViewProvider {
 	}
 
 	private _getHtmlForWebview(webview: vscode.Webview) {
-		const scriptUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'drawField.js'));
+		const drawFieldUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'drawField.js'));
+		const buttonControlUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'buttonControl.js'));
 
 		const styleMainUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'main.css'));
 
@@ -158,23 +172,25 @@ class FieldViewProvider implements vscode.WebviewViewProvider {
 					</div>
 					<div class="button-group-container">
 						<div class="moving-button-group">
-							<button class="moving-left-button">←</button>
+							<button id="moving-left-button">←</button>
 
-							<button class="moving-right-button">→</button>
+							<button id="moving-right-button">→</button>
 						</div>
 						<div class="rotating-button-group">
-							<button class="rotating-left-button">L</button>
+							<button id="rotating-left-button">L</button>
 
-							<button class="rotating-right-button">R</button>
+							<button id="rotating-right-button">R</button>
 						</div>
 					</div>
 				</div>
 
-				<script nonce="${nonce}" src="${scriptUri}" type=module></script>
+				<script nonce="${nonce}" src="${drawFieldUri}" type="module"></script>
 			</body>
 			</html>`;
 	}
 }
+
+//<script nonce="${nonce}" src="${buttonControlUri}" type="module"></script>
 
 function getNonce() {
 	let text = '';
