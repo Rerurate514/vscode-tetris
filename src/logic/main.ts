@@ -2,6 +2,7 @@ import { MonoData } from './MonoData';
 import { MonoMovingByAuto } from './MonoMoving';
 import { MonoMovingByPlayer } from './MonoMoving';
 import { MonoCollision } from './MonoCollision';
+import { CollisionRefControl } from './CollisionRefControl';
 
 import * as vscode from 'vscode';
 
@@ -25,6 +26,10 @@ export class GameExecute{
     private monoMovingByPlayer = new MonoMovingByPlayer;
 
     private monoCollision = new MonoCollision;
+
+    private monoData = new MonoData;
+
+    private collisionRefControl = new CollisionRefControl;
 
     private movingMonoField : Field = new Array(24).fill([]);
     private placedMonoField : Field = new Array(25).fill([]);
@@ -103,23 +108,14 @@ export class GameExecute{
             this.executeMonoPlacing();
         }
 
-        /*ここでmonoMovingByPlayerによる操作*/
-            /*横移動*/
-                /*isMoveRight*/
-                /*isMoveLeft*/
-            /*回転*/
-                /*isRotating*/
-
-        /*isCollision*/
         /*isLineOver*/
-
 
         this.invokeDrawField();
     }
 
     private executeMonoPlacing(){
-        let mono = this.decideMono();
-        this.setRefDefault();
+        let mono = this.monoData.decideMono();
+        this.collisionRefControl.setRefDefault(this.monoCollisionRef);
         this.placeMovingMonoField(mono);
         this.monoFallingFlag = true;
         this.monoCollisionRef.monoLowerCollision = this.monoCollision.createMonoLowerCollision(mono);
@@ -129,24 +125,15 @@ export class GameExecute{
         this.movingMonoField = this.monoMovingByAuto.monoFallOneSquare(
             this.movingMonoField
         );
-        this.moveCollisionRefY();
+
+        this.monoCollisionRef = this.collisionRefControl.moveCollisionRefY(
+            this.monoCollisionRef
+        );
 
         if(this.monoCollision.isBottomCollision(this.placedMonoField,this.monoCollisionRef)){
             this.insertPlacedFromMoving();
             this.monoFallingFlag = false;
         }
-    }
-
-    
-    /**
-     * ## この関数はmonoの基底Y座標を１下げる関数です。
-     * @date 2023/7/20 - 1:16:49
-     *
-     * @private
-     */
-    private moveCollisionRefY(){
-        this.monoCollisionRef.coodinate.monoBasis.y += 1 ;
-        this.monoCollisionRef.coodinate.monoLimit.y += 1 ;
     }
 
     private invokeDrawField(){
@@ -159,22 +146,6 @@ export class GameExecute{
             this.view.webview.postMessage(message);
         }
     }
-    
-    /**
-     * この関数はmonoのmapからランダムにmonoを返す関数です。
-     * @date 2023/7/13 - 13:08:25
-     *
-     * @private
-     * @returns {Field}
-     */
-    private decideMono() : Field{
-        let monoData = new MonoData;
-        let ramdomNum : number = Math.floor(Math.random() * monoData.getMonoDataSize()) + 1;
-        let monoMap = monoData.createMonoDataHashMap();
-        let monoDecide = monoMap.get(ramdomNum);
-        return monoDecide!!;
-    }
-
     
     /**
      * この関数はmonoをフィールドに配置する関数です。
@@ -205,13 +176,6 @@ export class GameExecute{
         this.movingMonoField[3][7] = _mono[3][2];
         this.movingMonoField[3][8] = _mono[3][3];
     }    
-
-    private setRefDefault(){
-        this.monoCollisionRef.coodinate.monoBasis.x = 5;
-        this.monoCollisionRef.coodinate.monoBasis.y = 0;
-        this.monoCollisionRef.coodinate.monoLimit.x = 8;
-        this.monoCollisionRef.coodinate.monoLimit.y = 3;   
-    }
 
     private insertPlacedFromMoving(){
         for (let v = 0; v < this.placedMonoField.length; v++) {
@@ -245,11 +209,25 @@ export class GameExecute{
         return result;
     }
       
-    public moveLeft(){
-        this.monoMovingByPlayer.moveLeft();
+    public async moveLeft(){
+        if(!this.monoFallingFlag){ return; };
+        this.movingMonoField = this.monoMovingByPlayer.moveLeft(
+            this.movingMonoField, this.monoCollisionRef
+        );
+
+        this.monoCollisionRef = this.collisionRefControl.moveCollisionRefX(
+            this.monoCollisionRef, "left"
+        );
     }
 
-    public moveRight(){
-        this.monoMovingByPlayer.moveRight();
+    public async moveRight(){
+        if(!this.monoFallingFlag){ return; };
+        this.movingMonoField = this.monoMovingByPlayer.moveRight(
+            this.movingMonoField, this.monoCollisionRef
+        );
+
+        this.monoCollisionRef = this.collisionRefControl.moveCollisionRefX(
+            this.monoCollisionRef, "right"
+        );
     }
 }

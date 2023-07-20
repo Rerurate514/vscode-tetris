@@ -58,9 +58,10 @@ export class MonoMovingByPlayer{
 
         /*isLeftCollision*/
 
-        for (let v = yBasis; v < yLimit; v++) {
-            for (let h = xBasis = 0; h < xLimit; h++) {
-                result[v - 1][h] = _movingMonoField[v][h]; 
+        for (let v = yBasis; v <= yLimit; v++) {
+            for (let h = xBasis; h < xLimit; h++) {
+                result[v][h - 1] = result[v][h];
+                result[v][h] = 0; 
             }
         }  
 
@@ -77,9 +78,10 @@ export class MonoMovingByPlayer{
 
         /*isLeftCollision*/
 
-        for (let v = yBasis; v < yLimit; v++) {
-            for (let h = xBasis = 0; h < xLimit; h++) {
-                result[v - 1][h] = _movingMonoField[v][h]; 
+        for (let v = yBasis; v <= yLimit; v++) {
+            for (let h = xLimit; h >= xBasis; h--) {
+                result[v][h + 1] = result[v][h];
+                result[v][h] = 0; 
             }
         }  
 

@@ -97,4 +97,20 @@ export class MonoData{
 
         return result!!;
     }
+
+        
+    /**
+     * この関数はmonoのmapからランダムにmonoを返す関数です。
+     * @date 2023/7/13 - 13:08:25
+     *
+     * @private
+     * @returns {Field}
+     */
+    public decideMono() : Field{
+        let monoData = new MonoData;
+        let ramdomNum : number = Math.floor(Math.random() * monoData.getMonoDataSize()) + 1;
+        let monoMap = monoData.createMonoDataHashMap();
+        let monoDecide = monoMap.get(ramdomNum);
+        return monoDecide!!;
+    }
 }

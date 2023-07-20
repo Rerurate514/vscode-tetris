@@ -185,12 +185,11 @@ class FieldViewProvider implements vscode.WebviewViewProvider {
 				</div>
 
 				<script nonce="${nonce}" src="${drawFieldUri}" type="module"></script>
+				<script nonce="${nonce}" src="${buttonControlUri}" type="module"></script>
 			</body>
 			</html>`;
 	}
 }
-
-//<script nonce="${nonce}" src="${buttonControlUri}" type="module"></script>
 
 function getNonce() {
 	let text = '';

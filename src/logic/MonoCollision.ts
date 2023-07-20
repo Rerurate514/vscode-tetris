@@ -1,3 +1,5 @@
+import { CalculateCollisionRef } from "./CalculateCollisionRef";
+
 type Field = number[][];
 type CollisionRef = {
     coodinate:{
@@ -12,7 +14,9 @@ type CollisionRef = {
     },
     monoLowerCollision : number[]
 };
+
 export class MonoCollision{
+    private calulateCollisionRef = new CalculateCollisionRef;
     
     /**
      * ## この関数はmonoの衝突判定を出す関数です。
@@ -29,20 +33,9 @@ export class MonoCollision{
         _collisionRef: CollisionRef
         ) : boolean{
 
-        let collissionCoodinate = [
-            this.sumWithCheckEmptyCollision(
-                _collisionRef.coodinate.monoBasis.y, _collisionRef.monoLowerCollision[0]
-                ),
-            this.sumWithCheckEmptyCollision(
-                _collisionRef.coodinate.monoBasis.y, _collisionRef.monoLowerCollision[1]
-            ),
-            this.sumWithCheckEmptyCollision(
-                _collisionRef.coodinate.monoBasis.y, _collisionRef.monoLowerCollision[2]
-            ),
-            this.sumWithCheckEmptyCollision(
-                _collisionRef.coodinate.monoBasis.y, _collisionRef.monoLowerCollision[3]
-            ),
-        ];
+        let collissionCoodinate = this.calulateCollisionRef.culculateBottomCollision(
+            _collisionRef
+        );
 
         let xBasis = _collisionRef.coodinate.monoBasis.x;
            
@@ -53,11 +46,6 @@ export class MonoCollision{
         }
 
         return false;
-    }
-
-    private sumWithCheckEmptyCollision(_y : number, _lowerCollision : number) : number{
-        if(_lowerCollision === -1) { return -1; }
-        return _y + _lowerCollision;
     }
 
     public createMonoLowerCollision(_mono : Field): number[]{
