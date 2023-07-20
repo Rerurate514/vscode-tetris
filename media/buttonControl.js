@@ -1,14 +1,14 @@
 (function() {
     const vscode = acquireVsCodeApi();
 
-    const rightBtn = document.getElementById('moving-right-button');
-    const leftBtn = document.getElementById('moving-left-button');
+    const rightMoveBtn = document.getElementById('moving-right-button');
+    const leftMoveBtn = document.getElementById('moving-left-button');
 
-    leftBtn?.addEventListener('click', () => {
+    leftMoveBtn?.addEventListener('click', () => {
         moveLeft();
     });
 
-    rightBtn?.addEventListener('click', () => {
+    rightMoveBtn?.addEventListener('click', () => {
         moveRight();
     });
 
@@ -18,5 +18,25 @@
 
     async function moveRight(){
         vscode.postMessage({ type: 'moveRightByPlayer' });
+    }
+    
+
+    const rightRotateBtn = document.getElementById('rotating-right-button');
+    const leftRotateBtn = document.getElementById('rotating-left-button');
+
+    leftRotateBtn?.addEventListener('click', () => {
+        rotateLeft();
+    });
+
+    rightRotateBtn?.addEventListener('click', () => {
+        rotateRight();
+    });
+
+    async function rotateLeft(){
+        vscode.postMessage({ type: 'rotateLeftByPlayer' });
+    }
+
+    async function rotateRight(){
+        vscode.postMessage({ type: 'rotateRightByPlayer' });
     }
 })();

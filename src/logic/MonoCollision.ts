@@ -48,7 +48,7 @@ export class MonoCollision{
         return false;
     }
 
-    public createMonoLowerCollision(_mono : Field): number[]{
+    public calculateMonoLowerCollision(_mono : Field): number[]{
         let monoLowerCollision = new Array(4).fill(-1);
     
         for (let v = 1; v < _mono.length + 1; v++) {

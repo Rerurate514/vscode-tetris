@@ -1,8 +1,11 @@
 import { MonoData } from './MonoData';
 import { MonoMovingByAuto } from './MonoMoving';
 import { MonoMovingByPlayer } from './MonoMoving';
+import { MonoRotating } from './MonoRotating';
 import { MonoCollision } from './MonoCollision';
 import { CollisionRefControl } from './CollisionRefControl';
+
+import { Common } from './Common';
 
 import * as vscode from 'vscode';
 
@@ -25,11 +28,15 @@ export class GameExecute{
     private monoMovingByAuto = new MonoMovingByAuto;
     private monoMovingByPlayer = new MonoMovingByPlayer;
 
+    private monoRotating = new MonoRotating;
+
     private monoCollision = new MonoCollision;
 
     private monoData = new MonoData;
 
     private collisionRefControl = new CollisionRefControl;
+
+    private commonCalc = new Common;
 
     private movingMonoField : Field = new Array(24).fill([]);
     private placedMonoField : Field = new Array(25).fill([]);
@@ -53,27 +60,10 @@ export class GameExecute{
     constructor(_view? : vscode.WebviewView){
         this.view = _view;
 
-        this.movingMonoField = this.fillFieldArrayOfArray(this.movingMonoField);
-        this.placedMonoField = this.createWallToField(this.fillFieldArrayOfArray(this.placedMonoField));
-    }
-
-    
-    /**
-     * ## この関数は2次元配列を作成して返す関数です。
-     * @date 2023/7/18 - 1:35:56
-     *
-     * @private
-     * @param {Field} _arr
-     * @returns {Field}
-     */
-    private fillFieldArrayOfArray(_arr: Field): Field{
-        let result : Field = new Array(_arr.length).fill([]);
-        for(let v = 0; v < _arr.length; v++){
-            result[v] = new Array(12).fill(0);
-        }
-
-        result = JSON.parse(JSON.stringify(result));
-        return result;
+        this.movingMonoField = this.commonCalc.fillFieldArrayOfArray(this.movingMonoField,12);
+        this.placedMonoField = this.createWallToField(
+            this.commonCalc.fillFieldArrayOfArray(this.placedMonoField,12)
+        );
     }
 
     private createWallToField(_arr: Field): Field{
@@ -108,8 +98,6 @@ export class GameExecute{
             this.executeMonoPlacing();
         }
 
-        /*isLineOver*/
-
         this.invokeDrawField();
     }
 
@@ -118,7 +106,7 @@ export class GameExecute{
         this.collisionRefControl.setRefDefault(this.monoCollisionRef);
         this.placeMovingMonoField(mono);
         this.monoFallingFlag = true;
-        this.monoCollisionRef.monoLowerCollision = this.monoCollision.createMonoLowerCollision(mono);
+        this.calculateMonoCollision(mono);
     }
 
     private executeMonoFalling(){
@@ -131,9 +119,11 @@ export class GameExecute{
         );
 
         if(this.monoCollision.isBottomCollision(this.placedMonoField,this.monoCollisionRef)){
-            this.insertPlacedFromMoving();
+            this.mergePlacedFromMoving();
             this.monoFallingFlag = false;
         }
+
+        /*isLineOver*/
     }
 
     private invokeDrawField(){
@@ -177,7 +167,7 @@ export class GameExecute{
         this.movingMonoField[3][8] = _mono[3][3];
     }    
 
-    private insertPlacedFromMoving(){
+    private mergePlacedFromMoving(){
         for (let v = 0; v < this.placedMonoField.length; v++) {
             for (let h = 0; h < this.placedMonoField.length; h++) {
                 if(this.placedMonoField[v][h] !== 0) { continue; }
@@ -191,7 +181,7 @@ export class GameExecute{
         const movingMonoField : Field = JSON.parse(JSON.stringify(this.movingMonoField));
         const placedMonoField : Field = JSON.parse(JSON.stringify(this.placedMonoField));
       
-        const result: Field = this.fillFieldArrayOfArray(new Array(21));
+        const result: Field = this.commonCalc.fillFieldArrayOfArray(new Array(21),12);
 
         for (let v = 4; v < placedMonoField.length; v++) {
             for (let h = 0; h < placedMonoField[v].length; h++) {
@@ -229,5 +219,46 @@ export class GameExecute{
         this.monoCollisionRef = this.collisionRefControl.moveCollisionRefX(
             this.monoCollisionRef, "right"
         );
+    }
+
+    public async rotateLeft(){
+        if(!this.monoFallingFlag){ return; };
+        this.movingMonoField = this.monoRotating.rotateLeft(
+            this.movingMonoField, this.monoCollisionRef
+        );
+
+        this.calculateMonoCollision();
+    }
+
+    public async rotateRight(){
+        if(!this.monoFallingFlag){ return; };
+        this.movingMonoField = this.monoRotating.rotateLeft(
+            this.movingMonoField, this.monoCollisionRef
+        );
+        
+        this.calculateMonoCollision();
+    }
+
+    private calculateMonoCollision(_mono?: Field){
+        let mono = _mono;
+        if(mono === undefined) { mono = this.fetchMonofieldFromMoving(); }
+        this.monoCollisionRef.monoLowerCollision = this.monoCollision.calculateMonoLowerCollision(mono);
+    }
+
+    private fetchMonofieldFromMoving(): Field{
+        let xBasis = this.monoCollisionRef.coodinate.monoBasis.x;
+        let yBasis = this.monoCollisionRef.coodinate.monoBasis.y;
+        let xLimit = this.monoCollisionRef.coodinate.monoLimit.x;
+        let yLimit = this.monoCollisionRef.coodinate.monoLimit.y;
+
+        let result = this.commonCalc.fillFieldArrayOfArray(new Array(4), 4);
+
+        for (let v = yBasis; v <= yLimit; v++) {
+            for (let h = xBasis; h < xLimit; h++) {
+                result[v - yBasis][h - xBasis] = this.movingMonoField[v][h];
+            }  
+        }
+
+        return result;
     }
 }

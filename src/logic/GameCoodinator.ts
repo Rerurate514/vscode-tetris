@@ -80,4 +80,19 @@ export class GameCoodinator{
             }
         }
     }
+
+    public controlRotating(_control: string){
+        switch(_control){
+            case 'rotateLeft':
+            {
+                this.mainFunc!!.rotateLeft();
+                break;
+            }
+            case 'rotateRight':
+            {
+                this.mainFunc!!.rotateRight();
+                break;
+            }
+        }
+    }
 }

@@ -100,7 +100,17 @@ class FieldViewProvider implements vscode.WebviewViewProvider {
 						this.gameCoodnator?.controlMovingByPlayer('moveRight');
 						break;
 					}
+				case 'rotateLeftByPlayer':
+					{
+						this.gameCoodnator?.controlRotating('rotateLeft');
+						break;
+					}
 				
+				case 'rotateRightByPlayer':
+					{
+						this.gameCoodnator?.controlRotating('rotateRight');
+						break;
+					}
 			}
 		});
 
