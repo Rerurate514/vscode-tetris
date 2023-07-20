@@ -1,16 +1,6 @@
 "use strict";
-var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MonoMovingByPlayer = exports.MonoMovingByAuto = void 0;
-var vscode = require("vscode");
 var MonoMovingByAuto = /** @class */ (function () {
     function MonoMovingByAuto() {
     }
@@ -23,10 +13,10 @@ var MonoMovingByAuto = /** @class */ (function () {
      * @param {Field} _movingMonoField
      */
     MonoMovingByAuto.prototype.monoFallOneSquare = function (_movingMonoField) {
-        vscode.window.showInformationMessage("invoked : monoFallOneSquare");
-        var result = __spreadArray([], _movingMonoField, true);
-        for (var vertical = 0; result.length - 1 < vertical; vertical++) {
-            result[vertical + 1] = result[vertical];
+        var result = JSON.parse(JSON.stringify(_movingMonoField));
+        for (var v = result.length - 1; v >= 1; v--) {
+            result[v] = result[v - 1];
+            result[v - 1] = new Array(12).fill(0);
         }
         return result;
     };
@@ -44,6 +34,10 @@ exports.MonoMovingByAuto = MonoMovingByAuto;
 var MonoMovingByPlayer = /** @class */ (function () {
     function MonoMovingByPlayer() {
     }
+    MonoMovingByPlayer.prototype.moveLeft = function () {
+    };
+    MonoMovingByPlayer.prototype.moveRight = function () {
+    };
     return MonoMovingByPlayer;
 }());
 exports.MonoMovingByPlayer = MonoMovingByPlayer;
