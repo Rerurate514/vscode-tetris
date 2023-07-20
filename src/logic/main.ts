@@ -4,6 +4,7 @@ import { MonoMovingByPlayer } from './MonoMoving';
 import { MonoRotating } from './MonoRotating';
 import { MonoCollision } from './MonoCollision';
 import { CollisionRefControl } from './CollisionRefControl';
+import { LinePlacedFullControl } from './LinePlacedFullControl';
 
 import { Common } from './Common';
 
@@ -27,14 +28,14 @@ type CollisionRef = {
 export class GameExecute{
     private monoMovingByAuto = new MonoMovingByAuto;
     private monoMovingByPlayer = new MonoMovingByPlayer;
-
     private monoRotating = new MonoRotating;
 
     private monoCollision = new MonoCollision;
+    private collisionRefControl = new CollisionRefControl;
 
     private monoData = new MonoData;
 
-    private collisionRefControl = new CollisionRefControl;
+    private fullLineControl = new LinePlacedFullControl;
 
     private commonCalc = new Common;
 
@@ -123,7 +124,7 @@ export class GameExecute{
             this.monoFallingFlag = false;
         }
 
-        /*isLineOver*/
+        this.movingMonoField = this.fullLineControl.lineFull(this.movingMonoField);
     }
 
     private invokeDrawField(){

@@ -34,13 +34,11 @@ body{
 
 td{
 	width: 7px;
-
-	border: 1px solid white;
 }
 
 .num-0-mono{
 	background-color: black;
-	
+	border: 1px solid #444444;
 }
 
 .num-1-mono{
