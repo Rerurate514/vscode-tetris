@@ -46,7 +46,9 @@ export class LinePlacedFullControl{
         for (let v = 0; v < _movingMonoField.length; v++) {
             let line = _movingMonoField[v];
             for (let h = 0; h < line.length; h++) {
+                
                 if(line[h] === 0){ continue; }
+                console.log(`line[${h}] : ${line[h]}`);
                 result.lineNum.push(v);
                 result.isFull = true;
             }

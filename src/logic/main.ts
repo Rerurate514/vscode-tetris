@@ -98,8 +98,6 @@ export class GameExecute{
         else{
             this.executeMonoPlacing();
         }
-
-        this.invokeDrawField();
     }
 
     private executeMonoPlacing(){
@@ -124,10 +122,14 @@ export class GameExecute{
             this.monoFallingFlag = false;
         }
 
+        //this.checkLineFullAndRemoveFullLine();
+    }
+
+    private async checkLineFullAndRemoveFullLine(){
         this.movingMonoField = this.fullLineControl.lineFull(this.movingMonoField);
     }
 
-    private invokeDrawField(){
+    public invokeDrawField(){
         const message = {
             type: 'drawField',
             field: this.fetchFieldArray()

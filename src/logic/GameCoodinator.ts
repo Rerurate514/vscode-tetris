@@ -3,8 +3,12 @@ import { GameExecute } from './main';
 import * as vscode from 'vscode';
 
 export class GameCoodinator{
-    private timerId : NodeJS.Timer | undefined = undefined;
-    private interval : number = 1000;
+    private mainTimerId : NodeJS.Timer | undefined = undefined;
+    private calcInterval : number = 1000;
+
+    private drawTimerId : NodeJS.Timer | undefined = undefined;
+    private drawInterval : number = 50;
+
     private mainFunc : GameExecute | undefined = undefined;
 
     private view : vscode.WebviewView;
@@ -20,7 +24,13 @@ export class GameCoodinator{
      * @public
      */
     public startGame() {
-        this.timerId = setInterval(() => this.mainFunc!!.main(), this.interval);
+        this.mainTimerId = setInterval(
+            () => this.mainFunc!!.main(), this.calcInterval
+        );
+
+        this.drawTimerId = setInterval(
+            () => this.mainFunc!!.invokeDrawField(), this.calcInterval
+        );
     }
 
     /**
@@ -30,7 +40,8 @@ export class GameCoodinator{
      * @public
      */
     public finishGame() {
-        clearInterval(this.timerId);
+        clearInterval(this.mainTimerId);
+        clearInterval(this.drawTimerId);
     }
 
     
