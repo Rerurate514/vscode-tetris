@@ -59,7 +59,7 @@ export class MonoMovingByPlayer{
         /*isLeftCollision*/
 
         for (let v = yBasis; v <= yLimit; v++) {
-            for (let h = xBasis; h < xLimit; h++) {
+            for (let h = xBasis; h <= xLimit; h++) {
                 result[v][h - 1] = result[v][h];
                 result[v][h] = 0; 
             }
