@@ -1,6 +1,20 @@
-import * as vscode from 'vscode';
+import { CalculateCollisionRef } from "./CalculateCollisionRef";
 
 type Field = number[][];
+type CollisionRef = {
+    coodinate:{
+        monoBasis: {
+            x : number,
+            y : number
+        },
+        monoLimit: {
+            x : number,
+            y : number
+        }
+    },
+    monoLowerCollision : number[]
+};
+
 export class MonoMovingByAuto{
     /**
      * ## この関数はフィールド上にあるmonoを１マス下げる関数です。
@@ -32,11 +46,43 @@ export class MonoMovingByAuto{
  * @typedef {MonoMovingByPlayer}
  */
 export class MonoMovingByPlayer{
-    public moveLeft(){
-        vscode.window.showInformationMessage("invoked : move Left");
+    private calulateCollisionRef = new CalculateCollisionRef;
+
+    public moveLeft(_movingMonoField: Field, _collisionRef: CollisionRef): Field{
+        let xBasis = _collisionRef.coodinate.monoBasis.x;
+        let yBasis = _collisionRef.coodinate.monoBasis.y;
+        let xLimit = _collisionRef.coodinate.monoLimit.x;
+        let yLimit = _collisionRef.coodinate.monoLimit.y;
+
+        let result = JSON.parse(JSON.stringify(_movingMonoField));
+
+        /*isLeftCollision*/
+
+        for (let v = yBasis; v < yLimit; v++) {
+            for (let h = xBasis = 0; h < xLimit; h++) {
+                result[v - 1][h] = _movingMonoField[v][h]; 
+            }
+        }  
+
+        return result;
     }
 
-    public moveRight(){
-        vscode.window.showInformationMessage("invoked : move Right");
+    public moveRight(_movingMonoField: Field, _collisionRef: CollisionRef): Field{
+        let xBasis = _collisionRef.coodinate.monoBasis.x;
+        let yBasis = _collisionRef.coodinate.monoBasis.y;
+        let xLimit = _collisionRef.coodinate.monoLimit.x;
+        let yLimit = _collisionRef.coodinate.monoLimit.y;
+
+        let result = JSON.parse(JSON.stringify(_movingMonoField));
+
+        /*isLeftCollision*/
+
+        for (let v = yBasis; v < yLimit; v++) {
+            for (let h = xBasis = 0; h < xLimit; h++) {
+                result[v - 1][h] = _movingMonoField[v][h]; 
+            }
+        }  
+
+        return result;
     }
 }
