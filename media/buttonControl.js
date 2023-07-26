@@ -39,4 +39,33 @@
     async function rotateRight(){
         vscode.postMessage({ type: 'rotateRightByPlayer' });
     }
+
+    document.addEventListener('keyup', function(event){
+        const keyCode = event.keyCode;
+
+        console.log("key = ",keyCode);
+
+        switch(keyCode){
+            case 65://81
+                {
+                    moveLeft();
+                    break;
+                }
+            case 68://69
+                {
+                    moveRight();
+                    break;
+                }
+            case 81:
+                {
+                    rotateLeft();
+                    break;
+                }
+            case 69:
+                {
+                    rotateRight();
+                    break;
+                }
+        }
+    });
 })();

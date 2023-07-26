@@ -77,8 +77,6 @@ class FieldViewProvider implements vscode.WebviewViewProvider {
 			],
 		};
 
-		
-
 		webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
 
 		webviewView.webview.onDidReceiveMessage(data => {

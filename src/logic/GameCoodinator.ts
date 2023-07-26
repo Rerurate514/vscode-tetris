@@ -4,7 +4,7 @@ import * as vscode from 'vscode';
 
 export class GameCoodinator{
     private mainTimerId : NodeJS.Timer | undefined = undefined;
-    private calcInterval : number = 1000;
+    private calcInterval : number = 300;
 
     private drawTimerId : NodeJS.Timer | undefined = undefined;
     private drawInterval : number = 50;
@@ -29,7 +29,7 @@ export class GameCoodinator{
         );
 
         this.drawTimerId = setInterval(
-            () => this.mainFunc!!.invokeDrawField(), this.calcInterval
+            () => this.mainFunc!!.invokeDrawField(), this.drawInterval
         );
     }
 

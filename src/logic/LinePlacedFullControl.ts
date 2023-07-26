@@ -1,5 +1,3 @@
-import { Common } from "./Common";
-
 type Field = number[][];
 type LineFullInfo = {
     isFull : boolean,
@@ -7,7 +5,8 @@ type LineFullInfo = {
 };
 
 export class LinePlacedFullControl{
-    private commonCalc = new Common;
+    private replacedFullLine = [1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,1];
+    private replacedDefaultLine = [1,0,0,0,0,0,0,0,0,0,0,1];
     
     /**
      * ## この関数は、クラス[LinePlacedFullControl]のエントリポイントです。
@@ -15,17 +14,22 @@ export class LinePlacedFullControl{
      * @date 2023/7/21 - 7:43:20
      *
      * @public
-     * @param {Field} _movingMonoField
+     * @param {Field} _placedMonoField
      * @returns {Field}
      */
-    public lineFull(_movingMonoField: Field): Field{
-        let movingMonoField = JSON.parse(JSON.stringify(_movingMonoField));
+    public lineFull(_placedMonoField: Field): Field{
+        let placedMonoField = JSON.parse(JSON.stringify(_placedMonoField));
 
-        let lineFullInfo = this.checkLineFull(movingMonoField);
+        let lineFullInfo = this.checkLineFull(placedMonoField);
 
-        if(!lineFullInfo.isFull){ return movingMonoField; }
+        if(!lineFullInfo.isFull){ return placedMonoField; }
 
-        return this.fallLinelOneSquare(movingMonoField, lineFullInfo);
+        placedMonoField = this.removeLine(placedMonoField, lineFullInfo);
+        placedMonoField = this.fallLineOneSquare(placedMonoField, lineFullInfo);
+
+        console.log("LINE IS FULL");
+
+        return placedMonoField;
     }
 
     
@@ -34,79 +38,67 @@ export class LinePlacedFullControl{
      * @date 2023/7/21 - 7:44:43
      *
      * @private
-     * @param {Field} _movingMonoField
+     * @param {Field} _placedMonoField
      * @returns {LineFullInfo}
      */
-    private checkLineFull(_movingMonoField: Field): LineFullInfo{
-        let result = {
+    private checkLineFull(_placedMonoField: Field): LineFullInfo{
+        let result : LineFullInfo = {
             isFull : false,
-            lineNum : new Array(24)
+            lineNum : []
         };
 
-        for (let v = 0; v < _movingMonoField.length; v++) {
-            let line = _movingMonoField[v];
-            for (let h = 0; h < line.length; h++) {
-                
-                if(line[h] === 0){ continue; }
-                console.log(`line[${h}] : ${line[h]}`);
-                result.lineNum.push(v);
+        let field : Field = JSON.parse(JSON.stringify(_placedMonoField));
+ 
+        for(let v = 0; v <= field.length - 2; v++){
+            for(let h = 1; h < field[v].length; h++){
+                if(field[v][h] === 0) { break; }
+                if(h !== field[v].length - 1) { continue; }
                 result.isFull = true;
+                result.lineNum.push(v);
             }
         }
 
         return result;
     }
 
-    
     /**
-     * ## この関数は、埋まったラインを消してnumber[-1]におく関数です。
+     * ## この関数は、埋まったラインを消す関数です。
      * @date 2023/7/21 - 7:45:14
      *
      * @private
-     * @param {Field} _movingMonoField
+     * @param {Field} _placedMonoField
      * @param {LineFullInfo} _lineFullInfo
      * @returns {Field}
      */
-    private fallLinelOneSquare(_movingMonoField: Field, _lineFullInfo: LineFullInfo): Field{
-        let movingMonoField = JSON.parse(JSON.stringify(_movingMonoField));
-        let result = this.commonCalc.fillFieldArrayOfArray(new Array(24),12);
-
-        for (let v = 0; v < movingMonoField.length; v++) {
-            if(!_lineFullInfo.lineNum.includes(v)){ continue; }
-
-            //-1をnullの代わりとして運用する。
-            //※この関数とremoveOneLineのスコープ内でのみ
-            result[v] = new Array(12).fill(-1);
+        private removeLine(_placedMonoField: Field, _lineFullInfo: LineFullInfo): Field{
+            let result = JSON.parse(JSON.stringify(_placedMonoField));
+    
+            for(const target of _lineFullInfo.lineNum){
+                result[target] = [...this.replacedDefaultLine];
+            }
+    
+            return result;
         }
-
-        return this.removeOneLine(result,_lineFullInfo.lineNum.length);
-    }
 
     
     /**
-     * ## この関数は、number[-1]を消して繰り上げる関数です。
-     * @date 2023/7/21 - 7:46:37
+     * ## この関数は、消されたラインから上のラインを下にずらす関数です。
+     * @date 2023/7/21 - 7:45:14
      *
      * @private
-     * @param {Field} _movingMonoField
-     * @param {number} _lineQuantity
+     * @param {Field} _placedMonoField
+     * @param {LineFullInfo} _lineFullInfo
      * @returns {Field}
      */
-    private removeOneLine(_movingMonoField: Field, _lineQuantity: number): Field{
-        let movingMonoField = JSON.parse(JSON.stringify(_movingMonoField));
-        let result = this.commonCalc.fillFieldArrayOfArray(new Array(24),12);
+    private fallLineOneSquare(_placedMonoField: Field, _lineFullInfo: LineFullInfo): Field{
+        let result = JSON.parse(JSON.stringify(_placedMonoField));
+        let lineFullNumArr = [..._lineFullInfo.lineNum];
 
-        for (let v = movingMonoField.length; v >= 1; v--) {
-            if(movingMonoField[v][0] !== -1){ continue; }
-            
-            result[v] = result[v + 1];
-            
+        for(let v = result.length - 1; v >= 1; v--){            
+            if(!lineFullNumArr.includes(v)){ continue; }
 
-            result[v] = new Array(12).fill(-1);
-        }
-
-        for(let v = 0; v <= _lineQuantity; v++){
-            result[v] = new Array(12).fill(0);
+            result[v] = [...result[v - 1]];
+            lineFullNumArr.push(v - 1);
         }
 
         return result;

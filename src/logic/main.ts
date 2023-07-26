@@ -122,11 +122,13 @@ export class GameExecute{
             this.monoFallingFlag = false;
         }
 
-        //this.checkLineFullAndRemoveFullLine();
+        console.log(this.placedMonoField);
+        this.checkLineFullAndRemoveFullLine();
+        console.log(this.placedMonoField);
     }
 
     private async checkLineFullAndRemoveFullLine(){
-        this.movingMonoField = this.fullLineControl.lineFull(this.movingMonoField);
+        this.placedMonoField = this.fullLineControl.lineFull(this.placedMonoField);
     }
 
     public invokeDrawField(){
@@ -235,7 +237,7 @@ export class GameExecute{
 
     public async rotateRight(){
         if(!this.monoFallingFlag){ return; };
-        this.movingMonoField = this.monoRotating.rotateLeft(
+        this.movingMonoField = this.monoRotating.rotateRight(
             this.movingMonoField, this.monoCollisionRef
         );
         
