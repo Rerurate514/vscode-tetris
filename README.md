@@ -9,3 +9,7 @@ You can play that famous line block game in the bottom-left corner!
 Take a break from coding and enjoy! 
 
 I'm a student, so please bear with any bugs or errors and report them as issues. **(´;ω;｀)**
+
+
+
+But it's still a work in progress
